@@ -22,11 +22,11 @@ class Conta(models.Model):
         ('pf','Pessoa Fisica'),
         ('pj', 'Pessoa Juridica')
     )
-    apelido = models.CharField(max_length=50)
+    apelido = models.CharField(max_length=50, blank=False)
     banco =models.CharField(max_length=2, choices=banco_choices)
     tipo = models.CharField(max_length=2, choices=tipo_choices)
     valor = models.FloatField()
-    icone =  models.ImageField(upload_to='icone')
+    icone =  models.ImageField(upload_to='icone', verbose_name='Icone do Banco')
     
     def __str__(self):
         return self.apelido

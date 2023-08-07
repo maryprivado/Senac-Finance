@@ -1,5 +1,8 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.messages import constants
+from perfil.models import Conta
+
 
 # Create your views here.
 def home(request):
@@ -15,3 +18,18 @@ def cadastrar_banco(request):
     valor = request.POST.get('valor')
     icone = request.POST.get('icone')
     
+    if len(apelido.strip()) == 0 or len(valor.strip()) == 0:
+        messages.add_message(request, constants.ERROR, 'Preencha todos os campos')
+        return redirect('/perfil/gerenciar')
+    
+    conta = Conta(
+        apelido = apelido,
+        banco = banco,
+        tipo = tipo,
+        valor = valor,
+        icone = icone
+    )
+    
+    conta.save()
+    messages.add_message(request, constants.SUCCESS, 'Cadastro feito com sucesso!')
+    return redirect('/perfil/gerenciar')
